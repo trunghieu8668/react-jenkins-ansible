@@ -1,32 +1,15 @@
-import React from "react";
-import ClientCarousel from "@/components/client-carousel";
-import Layout from "@/components/layout";
-import ProgressOne from "@/components/progress-one";
-import PageHeader from "@/components/page-header";
-import Footer from "@/components/footer";
-import AboutOne from "@/components/about-one";
-import TestimonialsOne from "@/components/testimonials-one";
-import TeamOne from "@/components/team-one";
-import FaqFeature from "@/components/faq-feature";
-import HeaderOne from "@/components/header-one";
-import MenuContextProvider from "@/context/menu-context";
+import React from 'react'
+import Link from 'next/link'
 
-const AboutPage = () => {
+function About() {
   return (
-    <MenuContextProvider>
-      <Layout PageTitle="About Us Page">
-        <HeaderOne />
-        <PageHeader title="About Us" name="About" />
-        <AboutOne />
-        <TestimonialsOne />
-        <TeamOne />
-        <ProgressOne />
-        <FaqFeature />
-        <ClientCarousel />
-        <Footer />
-      </Layout>
-    </MenuContextProvider>
-  );
-};
+    <>
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+      <h1>About</h1>
+    </>
+  )
+}
 
-export default AboutPage;
+export default About
