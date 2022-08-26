@@ -1,17 +1,16 @@
 {
-  "name": "nextjs-docker-pm2-nginx",
-  "version": "1.0.0",
-  "description": "Next.js with Docker, PM2 and NGINX",
-  "author": "Steve Holgado",
-  "license": "ISC",
+  "name": "next-pokedex",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "next",
-    "build": "next build",
+    "dev": "next dev",
+    "build": "next build && next export",
     "start": "next start"
   },
   "dependencies": {
-    "next": "^9.0.3",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "next": "10.0.5",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "swr": "^0.4.0"
   }
 }

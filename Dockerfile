@@ -1,30 +1,32 @@
-FROM node:alpine
+# stage1 as builder
+FROM node:10-alpine as builder
 
-# Set working directory
-WORKDIR /usr/app
+# copy the package.json to install dependencies
+COPY package.json package-lock.json ./
 
-# Install PM2 globally
-RUN npm install --global pm2
+# Install the dependencies and make the folder
+RUN npm install && mkdir /next-pokedex && mv ./node_modules ./next-pokedex
 
-# Copy "package.json" and "package-lock.json" before other files
-# Utilise Docker cache to save re-installing dependencies if unchanged
-COPY ./package*.json ./
+WORKDIR /next-pokedex
 
-# Install dependencies
-RUN npm install --production
+COPY . .
 
-# Copy all files
-COPY ./ ./
-
-# Build app
+# Build the project and copy the files
 RUN npm run build
 
-# Expose the listening port
-EXPOSE 3000
 
-# Run container as non-root (unprivileged) user
-# The "node" user is provided in the Node.js Alpine base image
-USER node
+FROM nginx:alpine
 
-# Launch app with PM2
-CMD [ "pm2-runtime", "start", "npm", "--", "start" ]
+#!/bin/sh
+
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+
+## Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy from the stahg 1
+COPY --from=builder /next-pokedex/out /usr/share/nginx/html
+
+EXPOSE 3000 80
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
